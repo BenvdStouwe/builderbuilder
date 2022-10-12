@@ -10,6 +10,7 @@ internal static class Program
         var main = new MainForm();
 
         Application.EnableVisualStyles();
+        Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
         Application.Run(main);
 
         Settings.Get.Save();
