@@ -45,12 +45,12 @@ public abstract class Compiler
     }
 
     protected void CloseBlock() => CloseBlocks(1);
-    protected void CloseBlocks(int numberOfBlocks) {
+    protected void CloseBlocks(int numberOfBlocks, string suffix = "") {
         for (var i = 0; i < numberOfBlocks; i++) {
             _indent--;
 
             if (UseBrackets) {
-                AddLine("}");
+                AddLine($"}}{suffix}");
             }
         }
     }

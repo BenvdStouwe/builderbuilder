@@ -11,7 +11,8 @@ internal static class Frameworks
     {
         new("C# NHibernate", "CsNhibernate", new NhibernateParser(), new VipCompiler()),
         new("Plain C# class", "PlainCsClass", new PlainCsClassParser(), new VipCompiler()),
-        new("C# immutable", "Immutable", new ImmutableParser(), new ImmutableCompiler())
+        new("C# immutable", "Immutable", new ImmutableParser(), new ImmutableCompiler()),
+        new("Plain class to record", "record", new PlainCsClassParser(), new RecordCompiler())
     };
 
     public static Framework FromSlug(string slug)

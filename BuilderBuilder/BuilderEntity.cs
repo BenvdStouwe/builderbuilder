@@ -2,7 +2,7 @@
 
 public class BuilderEntity
 {
-    public bool Persistable { get; set; }
+    public bool Persistable { get; }
 
     public string Name { get; set; }
 
@@ -15,17 +15,7 @@ public class BuilderEntity
     }
 }
 
-public struct Field
+public record struct Field(string Type, string Name, Field.InverseHandlingType InverseHandling = Field.InverseHandlingType.None)
 {
-    public enum InverseHandlingType { None, OneToOne, OneToMany, ManyToOne, ManyToMany };
-
-    public string Type;
-    public string Name;
-    public InverseHandlingType InverseHandling;
-
-    public Field(string type, string name, InverseHandlingType inverseHandling = InverseHandlingType.None) {
-        Type = type;
-        Name = name;
-        InverseHandling = inverseHandling;
-    }
+    public enum InverseHandlingType { None, OneToOne, OneToMany, ManyToOne, ManyToMany }
 }
