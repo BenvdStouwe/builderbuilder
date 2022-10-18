@@ -44,7 +44,10 @@ public class ImmutableCompiler : Compiler
     private void AddExampleBuilder()
     {
         AddLine($"public static {BuilderClass} Builder()");
-        WithBlock(() => { AddLine($"return new {BuilderClass}();"); });
+        WithBlock(() =>
+        {
+            AddLine($"return new {BuilderClass}();");
+        });
     }
 
     private void OpenBuilderClass()
@@ -66,13 +69,13 @@ public class ImmutableCompiler : Compiler
     private void AddFieldSetter(Field field)
     {
         var type = field.Type;
-        var name = field.Name;
+        var publicPropertyName = field.Name;
         var localVarName = LocalVar(field.Name);
         var privatePropertyName = PrivateVar(field.Name);
 
         AddEmptyLine();
 
-        AddLine($"public {BuilderClass} With{name}({type} {localVarName})");
+        AddLine($"public {BuilderClass} With{publicPropertyName}({type} {localVarName})");
         WithBlock(() =>
         {
             AddLine($"{privatePropertyName} = {localVarName};");
@@ -89,10 +92,9 @@ public class ImmutableCompiler : Compiler
         AddLine($"public {EntityClass} Build()");
         WithBlock(() =>
         {
-            foreach (var field in BuilderEntity.Fields.Where(f => !f.Type.EndsWith("?")))
+            foreach (var (_, name, _) in BuilderEntity.Fields.Where(f => !f.Type.EndsWith("?")))
             {
-                var privatePropertyName = PrivateVar(field.Name);
-                var name = field.Name;
+                var privatePropertyName = PrivateVar(name);
 
                 AddLine($"if ({privatePropertyName} is null)");
                 WithBlock(() => { AddLine($"throw new InvalidOperationException(\"{name} is not nullable\");"); });
